@@ -1,7 +1,6 @@
 #include "iostream"
 #include "stdafx.h"
 #include <opencv2/opencv.hpp>
-#include "cv.h"
 
 using namespace cv;
 using namespace std;
@@ -22,8 +21,8 @@ int main(int argc, char** argv){
 
 
 	// окно дл€ отображени€ картинки
-	cvNamedWindow("original",CV_WINDOW_AUTOSIZE);
-	cvNamedWindow("NewImage",CV_WINDOW_AUTOSIZE);
+	namedWindow("original",CV_WINDOW_AUTOSIZE);
+	namedWindow("NewImage",CV_WINDOW_AUTOSIZE);
 
 
 	int lowThreshold = 70;
@@ -33,7 +32,7 @@ int main(int argc, char** argv){
 	Canny( src_gray, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
 
 	//инверси€
-	detected_edges =  cv::Scalar::all(255) - detected_edges;
+	detected_edges =  Scalar::all(255) - detected_edges;
 
 	// арта рассто€ний dst
 	distanceTransform (detected_edges, dst, CV_DIST_L2, 5);
@@ -97,15 +96,12 @@ int main(int argc, char** argv){
 			fin_chan[2].at<uchar>(i,j) = (uchar) regionR;
 		}
 	}
-	cv::merge(fin_chan, finish);
+	merge(fin_chan, finish);
 	// показываем картинку
 	imshow("original", image);
 	imshow("NewImage", finish);
 
-	cv::waitKey(0);
-
-	cvDestroyWindow("original");
-	cvDestroyWindow("NewImage");
+	waitKey(0);
 
 	return 0;
 }
